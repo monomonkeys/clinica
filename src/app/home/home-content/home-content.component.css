@@ -1,0 +1,48 @@
+.menu-image img{
+    margin-top: -16px;
+    width: 100%;
+}
+
+.column{
+    margin: auto;
+    width: 23%;
+    padding: 0px 10px;
+}
+
+.row{
+    margin-top: 100px;
+}
+
+.row::after{
+    content:"";
+    display: table;
+    clear: both;
+}
+
+@media screen and(max-width:600px){
+    .column{
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
+    }
+}
+
+.card{
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    max-width: 240px;
+    margin: auto;
+    background-color: #46629B;
+    text-align: center;
+    border-radius: 40px;
+    padding-bottom: 15px;
+}
+
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+a:hover{
+    opacity: 0.6;
+}

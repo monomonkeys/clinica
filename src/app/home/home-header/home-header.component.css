@@ -1,0 +1,18 @@
+.navbar{
+    background: rgba(11,129,105,1);
+    background: -moz-linear-gradient(left, rgba(11,129,105,1) 0%, rgba(11,129,105,1) 28%, rgba(11,28,106,1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(11,129,105,1)), color-stop(28%, rgba(11,129,105,1)), color-stop(100%, rgba(11,28,106,1)));
+    background: -webkit-linear-gradient(left, rgba(11,129,105,1) 0%, rgba(11,129,105,1) 28%, rgba(11,28,106,1) 100%);
+    background: -o-linear-gradient(left, rgba(11,129,105,1) 0%, rgba(11,129,105,1) 28%, rgba(11,28,106,1) 100%);
+    background: -ms-linear-gradient(left, rgba(11,129,105,1) 0%, rgba(11,129,105,1) 28%, rgba(11,28,106,1) 100%);
+    background: linear-gradient(to right, rgba(11,129,105,1) 0%, rgba(11,129,105,1) 28%, rgba(11,28,106,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0b8169', endColorstr='#0b1c6a', GradientType=1 );
+}
+
+.navbar a{
+    color: white;
+}
+
+.nav-link{
+    color: white;
+}
