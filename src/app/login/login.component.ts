@@ -26,16 +26,18 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    
     if (this.tokenService.getToken()) {
       this.isLogged = true;
       this.isLoginFail = false;
       this.roles = this.tokenService.getAuthorities();
     }
 
-    document.querySelector('.img-btn').addEventListener('click',function(){
-      document.querySelector('.cont').classList.toggle('s-signup')
-    });
+    
   }
+
+  
 
   onLogin(): void {
     this.loginUsuario = new LoginUsuario(this.nombreUsuario, this.password);
@@ -50,8 +52,8 @@ export class LoginComponent implements OnInit {
         this.roles = data.authorities;
         /*this.toastr.success('Bienvenido ' + data.nombreUsuario, 'OK', {
           timeOut: 3000, positionClass: 'toast-top-center'
-        });
-        this.router.navigate(['/']);*/
+        });*/
+        this.router.navigate(['/home']);
       },
       err => {
         this.isLogged = false;

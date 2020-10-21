@@ -10,7 +10,7 @@ import { JwtDto } from '../models/jwt-dto';
 })
 export class AuthService {
 
-  authURL = 'http://localhost:8080/auth/';
+  authURL = 'https://clinica-monomonkeys.herokuapp.com/auth/';
 
   constructor(private httpClient: HttpClient) { }
 
