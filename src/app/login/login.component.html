@@ -1,11 +1,83 @@
-<html>
-<head>
-    <title>Clinica MonoMonkeys</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@1,200&display=swap" rel="stylesheet">
-</head>
-<body>
+<div class="text-center" *ngIf="isLogged; else loggedOut">
+  <h2>Ya has iniciado sesión</h2>
+</div>
+
+<ng-template #loggedOut>
+    <div class="cont">
+      <div class="form">
+        <form #f="ngForm" (ngSubmit)="onLogin()" novalidate>
+            <div class="form-group">
+                <label for="nombreUsuario">Nombre de Usuario</label>
+                <input type="text" name="nombreUsuario" id="nombreUsuario" class="form-control"
+                [(ngModel)]="nombreUsuario" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" name="password" id="password" class="form-control"
+                [(ngModel)]="password" required>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-outline-success btn-block" [disabled]="!f.valid">
+                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión</button>
+            </div>
+        </form>
+        <div class="redes-sociales">
+          <ul>
+              <li> 
+                  <img src="assets/images/facebook.PNG">
+                  <img src="assets/images/instagram.PNG">
+                  <img src="./assets/images/whatsapp.PNG">
+              </li>
+          </ul>
+        </div>
+        <div class="sub-cont">
+          <div class="img">
+            <div class="img-text m-up">
+              <h2>No tienes Cuenta?</h2>
+              <p>Registrate segun sea tu perfil y accede al contenido que tenemos para ti</p>
+            </div>
+            <div class="img-text m-in">
+              <h2>Ya tienes cuenta?</h2>
+              <p>Ingresa con tu correo facilmente</p>
+            </div>
+            <div class="img-btn">
+              <span class="m-up">Registrarse</span>
+              <span class="m-in">Iniciar Sesion</span>
+            </div>
+          </div>
+          <div class="form sign-up">
+            <h2>Crea Tu cuenta</h2>
+            <label>
+              <span>Nombre</span>
+              <input type="text">
+            </label>
+            <label>
+              <span>Elige tu tipo de Usuario:</span>
+              <select name="perfiles">
+                  <option value="Medico"> Medico</option>
+                  <option value="Paciente"> Paciente</option>
+                  <option value="Administracion"> Administracion</option>
+              </select>
+            </label>
+            <label>
+              <span>Correo Electronico</span>
+              <input type="email">
+            </label>
+            <label>
+              <span>Password</span>
+              <input type="password">
+            </label>
+            <label>
+              <span>Confirmar Password</span>
+              <input type="password">
+            </label>
+            <button type="button" class="submit">Registrar</button>
+          </div>
+        </div>            
+      </div>
+  </div>
+</ng-template>
+<!--<body>
     <div class="cont">
         <div class="form">
             <h2>Iniciar Sesion</h2>
@@ -30,7 +102,7 @@
                 </ul>
             </div>
         </div>
-        <div class="sub-cont">
+          <div class="sub-cont">
             <div class="img">
               <div class="img-text m-up">
                 <h2>No tienes Cuenta?</h2>
@@ -78,4 +150,4 @@
 
 </body>
 
-</html>
+</html>-->
