@@ -27,7 +27,7 @@ export class HomeContentComponent implements OnInit {
         console.log('esAdmin')
         this.isAdmin = true;
       }
-      else if(this.authorities [1] === 'ROLE_MEDICO'){
+      else if(this.authorities [0] === 'ROLE_MEDICO'){
         console.log('esMedico')
         this.isMedico = true;
       }
