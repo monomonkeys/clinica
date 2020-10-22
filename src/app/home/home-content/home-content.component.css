@@ -1,5 +1,5 @@
 .menu-image img{
-    margin-top: -16px;
+    margin-top: -25px;
     width: 100%;
 }
 
@@ -7,6 +7,9 @@
     margin: auto;
     width: 23%;
     padding: 0px 10px;
+}
+.row .title{
+    margin-top: 50px;
 }
 
 .row{

@@ -2,40 +2,62 @@
     <img src="assets/images/banner.png" alt="imagen">
 </div>
 
-<div class="row">
-    <div class="column">
-        <div class="card">
-            <a href="">
-                <img src="assets/images/calendario.png" alt="calendario" style="width:150px; height:auto; padding-top: 10px; margin: auto;">
-                <h1>Calendario</h1>
-            </a>
+<div class="container text-center">
+    <div *ngIf="isLogged; else loggedOut"><h2>Bienvenido {{nombreUsuario}}</h2></div>
+    <ng-template #loggedOut><h2>No has iniciado sesión</h2></ng-template>
+</div>
+
+<div *ngIf="isAdmin;">
+    <h2 style="text-align: center;">Eres Admin</h2>
+    <div class="row">
+        <div class="column">
+            <div class="card">
+                <a href="">
+                    <img src="assets/images/calendario.png" alt="calendario" style="width:150px; height:auto; padding-top: 10px; margin: auto;">
+                    <h1>Calendario</h1>
+                </a>
+            </div>
+        </div>
+    
+        <div class="column">
+            <div class="card">
+                <a href="">                
+                    <img src="assets/images/doctor.png" alt="doctor" style="width:150px; height:auto; padding-top: 10px; margin: auto;">
+                    <h1>Doctores</h1>
+                </a>
+            </div>
+        </div>
+    
+        <div class="column">
+            <div class="card">
+                <a href="">
+                    <img src="assets/images/paciente.png" alt="paciente" style="width:150px; height:auto; padding-top: 10px; margin: auto;">
+                    <h1>Paciente</h1>
+                </a>            
+            </div>
+        </div>
+    
+        <div class="column">
+            <div class="card">
+                <a href="">
+                    <img src="assets/images/servicios.png" alt="servicios" style="width:150px; height:auto; padding-top: 10px; margin: auto;">
+                    <h1>Servicios</h1>
+                </a>
+            </div>
         </div>
     </div>
+</div>
 
-    <div class="column">
-        <div class="card">
-            <a href="">                
-                <img src="assets/images/doctor.png" alt="doctor" style="width:150px; height:auto; padding-top: 10px; margin: auto;">
-                <h1>Doctores</h1>
-            </a>
-        </div>
+<div *ngIf="isMedico;">
+    <div class="titulo" style="text-align: center;">
+        <h2>Eres Medico</h2>
+        <h3>Proximamente Medicos</h3>
     </div>
+</div>
 
-    <div class="column">
-        <div class="card">
-            <a href="">
-                <img src="assets/images/paciente.png" alt="paciente" style="width:150px; height:auto; padding-top: 10px; margin: auto;">
-                <h1>Paciente</h1>
-            </a>            
-        </div>
-    </div>
-
-    <div class="column">
-        <div class="card">
-            <a href="">
-                <img src="assets/images/servicios.png" alt="servicios" style="width:150px; height:auto; padding-top: 10px; margin: auto;">
-                <h1>Servicios</h1>
-            </a>
-        </div>
+<div *ngIf="isRecepcionista;">
+    <div class="titulo" style="text-align: center;">
+        <h2>Eres Recepcionista</h2>
+        <h3>Proximamente Recepcionistas</h3>
     </div>
 </div>
