@@ -14,7 +14,7 @@ export class HomeContentComponent implements OnInit {
   isMedico = false; 
   
   nombreUsuario = '';
-  authorities = [];
+  roles: string[];
 
   constructor(private tokenService: TokenService) { }
 
@@ -22,16 +22,36 @@ export class HomeContentComponent implements OnInit {
     if (this.tokenService.getToken()) {
       this.isLogged = true;
       this.nombreUsuario = this.tokenService.getUserName();
+      this.roles = this.tokenService.getAuthorities();
+      this.roles.forEach(rol => {
+        if( rol === 'ROLE_ADMIN'){
+          this.isAdmin = true;
+        }
+        else if( rol === 'ROLE_MEDICO'){
+          this.isMedico = true;
+        }
+        else if( rol === 'ROLE_RECEPCIONISTA'){
+          this.isRecepcionista = true;
+        }
+      });
+    }
+    /*if (this.tokenService.getToken()) {
+      this.isLogged = true;
+      this.nombreUsuario = this.tokenService.getUserName();
       this.authorities = this.tokenService.getAuthorities();
-      if(this.authorities [0] === 'ROLE_ADMIN'){
+      if(this.authorities [0] === 'ROLE_ADMIN' || this.authorities [1] === 'ROLE_ADMIN'){
         console.log('esAdmin')
         this.isAdmin = true;
       }
+<<<<<<< HEAD
       else if(this.authorities [0] === 'ROLE_MEDICO'){
+=======
+      else if(this.authorities [0] === 'ROLE_MEDICO' || this.authorities [1] === 'ROLE_MEDICO'){
+>>>>>>> 3970a86... registro usuarios
         console.log('esMedico')
         this.isMedico = true;
       }
-      else if(this.authorities [1] === 'ROLE_RECEPCIONISTA'){
+      else if(this.authorities [0] === 'ROLE_RECEPCIONISTA' || this.authorities [1] === 'ROLE_RECEPCIONISTA'){
         console.log('esRecepcionista')
         this.isRecepcionista = true;
       } else {
@@ -41,7 +61,7 @@ export class HomeContentComponent implements OnInit {
       this.isLogged = false;
       this.nombreUsuario = '';
       this.authorities = [];
-    }
+    }*/
   }
 
 }
