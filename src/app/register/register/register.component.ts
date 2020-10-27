@@ -47,7 +47,7 @@ export class RegisterComponent implements OnInit {
         });
         
 
-        this.router.navigate(['/register']);
+        this.router.navigate(['/lista']);
       },
       err => {
         this.errMsj = err.error.mensaje;
@@ -58,6 +58,10 @@ export class RegisterComponent implements OnInit {
         console.log(err.error.message);
       }
     );
+  }
+
+  volver(): void {
+    this.router.navigate(['/lista']);
   }
 
 }

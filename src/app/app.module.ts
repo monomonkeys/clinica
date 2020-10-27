@@ -14,6 +14,9 @@ import { RegisterComponent } from './register/register/register.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { interceptorProvider } from './interceptors/user-interceptor.service';
+import { ListaUsuarioComponent } from './usuario/lista-usuario.component';
+import { DetalleUsuarioComponent } from './usuario/detalle-usuario.component';
+import { EditarUsuarioComponent } from './usuario/editar-usuario.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,10 @@ import { interceptorProvider } from './interceptors/user-interceptor.service';
     HomeHeaderComponent,
     HomeContentComponent,
     HomeFooterComponent,
-    RegisterComponent
+    RegisterComponent,
+    ListaUsuarioComponent,
+    DetalleUsuarioComponent,
+    EditarUsuarioComponent
   ],
   imports: [
     BrowserModule,

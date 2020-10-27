@@ -3,7 +3,7 @@
 </div>
 
 <div class="container text-center">
-    <div *ngIf="isLogged; else loggedOut"><h2>Bienvenido {{nombreUsuario}}</h2></div>
+    <div *ngIf="isLogged; else loggedOut"><h2>Bienvenido {{nombreUsuario}} {{roles}}</h2></div>
     <ng-template #loggedOut><h2>No has iniciado sesión</h2></ng-template>
 </div>
 
@@ -39,11 +39,32 @@
     
         <div class="column">
             <div class="card">
-                <a routerLink="/register">
+                <a routerLink="/home">
                     <img src="assets/images/servicios.png" alt="servicios" style="width:150px; height:auto; padding-top: 10px; margin: auto;">
                     <h1>Servicios</h1>
                 </a>
             </div>
+        </div>
+
+        <div class="column">
+            <div class="card">
+                <a routerLink="/lista">
+                    <img src="assets/images/usuarios.png" alt="usuarios" style="width:150px; height:auto; padding-top: 10px; margin: auto;">
+                    <h1>Usuarios</h1>
+                </a>
+            </div>
+        </div>
+
+        <div class="column">
+
+        </div>
+
+        <div class="column">
+
+        </div>
+
+        <div class="column">
+
         </div>
     </div>
 </div>
