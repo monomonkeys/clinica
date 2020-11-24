@@ -1,5 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid'; 
+import interactionPlugin from '@fullcalendar/interaction';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -17,6 +20,25 @@ import { interceptorProvider } from './interceptors/user-interceptor.service';
 import { ListaUsuarioComponent } from './usuario/lista-usuario.component';
 import { DetalleUsuarioComponent } from './usuario/detalle-usuario.component';
 import { EditarUsuarioComponent } from './usuario/editar-usuario.component';
+import { RegistrarServicioComponent } from './servicio/registrar-servicio.component';
+import { ListaServicioComponent } from './servicio/lista-servicio.component';
+import { DetalleServicioComponent } from './servicio/detalle-servicio.component';
+import { EditarServicioComponent } from './servicio/editar-servicio.component';
+import { EditarAreaComponent } from './area/editar-area.component';
+import { RegistrarAreaComponent } from './area/registrar-area.component';
+import { ListaAreaComponent } from './area/lista-area.component';
+import { DetalleAreaComponent } from './area/detalle-area.component';
+import { ListaPacienteComponent } from './paciente/lista-paciente.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { CalendarComponent } from './calendar/calendar.component';
+import { MedicoComponent } from './medico/medico.component';
+import { FechaComponent } from './fecha/fecha.component';
+
+FullCalendarModule.registerPlugins([ 
+  dayGridPlugin,
+  interactionPlugin
+]);
+
 
 @NgModule({
   declarations: [
@@ -29,7 +51,20 @@ import { EditarUsuarioComponent } from './usuario/editar-usuario.component';
     RegisterComponent,
     ListaUsuarioComponent,
     DetalleUsuarioComponent,
-    EditarUsuarioComponent
+    EditarUsuarioComponent,
+    RegistrarServicioComponent,
+    ListaServicioComponent,
+    DetalleServicioComponent,
+    EditarServicioComponent,
+    EditarAreaComponent,
+    RegistrarAreaComponent,
+    ListaAreaComponent,
+    DetalleAreaComponent,
+    ListaPacienteComponent,
+    ConfirmDialogComponent,
+    CalendarComponent,
+    MedicoComponent,
+    FechaComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +74,8 @@ import { EditarUsuarioComponent } from './usuario/editar-usuario.component';
     FormsModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FullCalendarModule
   ],
   providers: [interceptorProvider],
   bootstrap: [AppComponent]

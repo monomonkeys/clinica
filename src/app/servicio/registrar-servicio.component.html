@@ -1,0 +1,33 @@
+<app-home-header></app-home-header>
+<div class="container d-flex justify-content-center">
+    <div class="card">
+        <div class="card-header">
+            <h2>Registrar Servicio</h2>
+        </div>
+        <div class="card-body">
+            <form #f="ngForm" (ngSubmit)="onRegister()" novalidate [formGroup]="registerForm">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" name="nombre" id="nombre" class="form-control" formControlName="nombre"
+                    [(ngModel)]="nombre" required>
+                    <span class="error" *ngIf="registerForm.get('nombre').touched && registerForm.get('nombre').hasError('required')">El Nombre es requerido</span>
+                </div>
+                <div class="form-group">
+                    <label for="precio">Precio</label>
+                    <input type="number" name="precio" id="precio" class="form-control" formControlName="precio"
+                    [(ngModel)]="precio" required>
+                    <span class="error" *ngIf="registerForm.get('precio').touched && registerForm.get('precio').hasError('minlength')">El Precio debe de tener minimo 1 caracter</span>
+                    <span class="error" *ngIf="registerForm.get('precio').touched && registerForm.get('precio').hasError('required')">El Precio es requerido</span>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-outline-success btn-block" [disabled]="!f.valid">
+                        <i class="fas fa-sign-in-alt"></i> Registrar Servicio</button>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-outline-primary btn-block" (click)="volver()"><i class="fas fa-arrow-alt-circle-left"></i> Volver</button>
+        </div>
+    </div>
+</div>
+<app-home-footer></app-home-footer>

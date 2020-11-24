@@ -16,20 +16,18 @@ export class UserGuardService implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const expectedRol = route.data.expectedRol;
-    const roles = this.tokenService.getAuthorities();
-    this.realRol = 'user';
-    roles.forEach(rol => {
-      if (rol === 'ROLE_ADMIN') {
-        this.realRol = 'admin';
-      }
-      if (rol === 'ROLE_MEDICO') {
-        this.realRol = 'medico';
-      }
-      if (rol === 'ROLE_RECEPCIONISTA') {
-        this.realRol = 'recepcionista';
-      }
-    });
-    if (!this.tokenService.getToken() || expectedRol.indexOf(this.realRol) === -1) {
+    if(this.tokenService.isAdmin() == true){
+      this.realRol = 'admin';
+    }else if(this.tokenService.isMedico() == true){
+      this.realRol = 'medico';
+    }else if(this.tokenService.isRecepcionista() == true){
+      this.realRol = 'recepcionista';
+    }else{
+      this.realRol = 'user';
+    }
+    /*this.realRol = this.tokenService.isMedico() ? 'medico' : 'user';
+    this.realRol = this.tokenService.isRecepcionista() ? 'recepcionista' : 'user';*/
+    if (!this.tokenService.getToken() || expectedRol.indexOf(this.realRol) < 0) {
       this.router.navigate(['/home']);
       return false;
     }

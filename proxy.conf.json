@@ -1,0 +1,7 @@
+{
+    "/auth/*":{
+        "target":"https://clinica-monomonkeys.herokuapp.com",
+        "secure": false,
+        "logLevel": "debug"
+    }
+}

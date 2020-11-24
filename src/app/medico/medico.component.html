@@ -1,0 +1,192 @@
+<app-home-header></app-home-header>
+
+<div class="registro" style="padding-bottom: 50px; padding-right: 20px;">
+    <button  class="btn btn-primary float-right" (click)="openXL(registroMedico)"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-plus-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm7.5-3a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+      </svg> Nuevo Medico</button>
+</div>  
+<table class="table table-dark">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Genero</th>
+        <th scope="col">Especialidad</th>
+        <th scope="col">Cedula</th>
+        <th scope="col">Telefono</th>
+        <th scope="col">Ver</th>
+        <th scope="col">Editar</th>
+        <th scope="col">Borrar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let medico of medicos">
+        <td>{{medico.idMedico}}</td>
+        <td>{{medico.nombreMedico}}</td>
+        <td>{{medico.generoMedico}}</td>
+        <td>{{medico.especialidadMedico}}</td>
+        <td>{{medico.cedulaMedico}}</td>
+        <td>{{medico.telefonoMedico}}</td>
+        <td><button class="btn btn-outline-primary" (click)="openVer(verMedico, medico.idMedico)"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+            <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+          </svg> Ver</button>
+        </td>
+        <td><button class="btn btn-outline-warning" (click)="openEdit(editarMedico, medico.idMedico)"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+          </svg> Editar</button>
+        </td>
+        <td><button class="btn btn-outline-danger" (click)="borrarMedico(medico.idMedico)"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+          </svg> Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+    <ng-template #registroMedico let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Registrar Medico</h4>
+        <button class="close" aria-label="close" type="button" (click)="modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form #f="ngForm" (ngSubmit)="onRegister()" novalidate [formGroup]="registerForm">
+            <div class="form-group">
+                <label for="nombrePaciente">Nombre Medico</label>
+                <input type="text" name="nombreMedico" id="nombreMedico" class="form-control" formControlName="nombreMedico"
+                [(ngModel)]="nombreMedico" required>
+                <span class="error" *ngIf="registerForm.get('nombreMedico').touched && registerForm.get('nombreMedico').hasError('required')">El Nombre de Medico es requerido</span>
+            </div>
+            <div class="form-group">
+                <label for="generoMedico">Genero Medico</label>
+                <select class="form-control" id="generoMedico" name="generoMedico"  class="form-control" formControlName="generoMedico"
+                [(ngModel)]="generoMedico" required>
+                    <option value="HOMBRE">Hombre</option>
+                    <option value="MUJER">Mujer</option>
+                </select>
+                <span class="error" *ngIf="registerForm.get('generoMedico').touched && registerForm.get('generoMedico').hasError('required')">El Genero de Medico es requerido</span>
+            </div>
+            <div class="form-group">
+                <label for="especialidadMedico">Especialidad Medico</label>
+                <input type="text" name="especialidadMedico" id="especialidadMedico" class="form-control" formControlName="especialidadMedico"
+                [(ngModel)]="especialidadMedico" required>
+                <span class="error" *ngIf="registerForm.get('especialidadMedico').touched && registerForm.get('especialidadMedico').hasError('required')">La Especialidad es requerida</span>
+            </div>
+            <div class="form-group">
+                <label for="cedulaMedico">Cedula Paciente</label>
+                <input type="text" name="cedulaMedico" id="cedulaMedico" class="form-control" formControlName="cedulaMedico"
+                [(ngModel)]="cedulaMedico" required>
+                <span class="error" *ngIf="registerForm.get('cedulaMedico').touched && registerForm.get('cedulaMedico').hasError('minlength')">La Cedula debe de tener minimo 7 caracteres</span>
+                <span class="error" *ngIf="registerForm.get('cedulaMedico').touched && registerForm.get('cedulaMedico').hasError('maxlength')">La Cedula debe de tener maximo 10 caracteres</span>
+                <span class="error" *ngIf="registerForm.get('cedulaMedico').touched && registerForm.get('cedulaMedico').hasError('required')">La Cedula es requerida</span>
+            </div>
+            <div class="form-group">
+                <label for="telefonoMedico">Telefono Medico</label>
+                <input type="text" name="telefonoMedico" id="telefonoMedico" class="form-control" formControlName="telefonoMedico"
+                [(ngModel)]="telefonoMedico" required>
+                <span class="error" *ngIf="registerForm.get('telefonoMedico').touched && registerForm.get('telefonoMedico').hasError('minlength')">El telefono debe de tener 10 caracteres</span>
+                <span class="error" *ngIf="registerForm.get('telefonoMedico').touched && registerForm.get('telefonoMedico').hasError('maxlength')">El telefono debe de tener 10 caracteres</span>
+                <span class="error" *ngIf="registerForm.get('telefonoMedico').touched && registerForm.get('telefonoMedico').hasError('required')">El telefono es requerido</span>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-outline-success btn-block" [disabled]="!f.valid">
+                    <i class="fas fa-sign-in-alt"></i> Registrar Medico</button>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-outline-primary btn-block" (click)="modal.close()"><i class="fas fa-arrow-alt-circle-left"></i> Volver</button>
+    </div>
+    </ng-template>
+
+    <ng-template #editarMedico let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title">Actualizar Medico</h4>
+            <button class="close" aria-label="close" type="button" (click)="modal.dismiss()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form #f2="ngForm" (ngSubmit)="onUpdate(medico.idMedico)" novalidate [formGroup]="updateForm">
+                <div class="form-group">
+                    <label for="medico.nombrePaciente">Nombre Medico</label>
+                    <input type="text" name="nombreMedico" id="nombreMedico" class="form-control" formControlName="nombreMedico"
+                    [(ngModel)]="medico.nombreMedico" required>
+                    <span class="error" *ngIf="registerForm.get('nombreMedico').touched && registerForm.get('nombreMedico').hasError('required')">El Nombre de Medico es requerido</span>
+                </div>
+                <div class="form-group">
+                    <label for="generoMedico">Genero Medico</label>
+                    <select class="form-control" id="generoMedico" name="generoMedico"  class="form-control" formControlName="generoMedico"
+                    [(ngModel)]="medico.generoMedico" required>
+                        <option value="HOMBRE">Hombre</option>
+                        <option value="MUJER">Mujer</option>
+                    </select>
+                    <span class="error" *ngIf="registerForm.get('generoMedico').touched && registerForm.get('generoMedico').hasError('required')">El Genero de Medico es requerido</span>
+                </div>
+                <div class="form-group">
+                    <label for="especialidadMedico">Especialidad Medico</label>
+                    <input type="text" name="especialidadMedico" id="especialidadMedico" class="form-control" formControlName="especialidadMedico"
+                    [(ngModel)]="medico.especialidadMedico" required>
+                    <span class="error" *ngIf="registerForm.get('especialidadMedico').touched && registerForm.get('especialidadMedico').hasError('required')">La Especialidad es requerida</span>
+                </div>
+                <div class="form-group">
+                    <label for="cedulaMedico">Cedula Paciente</label>
+                    <input type="text" name="cedulaMedico" id="cedulaMedico" class="form-control" formControlName="cedulaMedico"
+                    [(ngModel)]="medico.cedulaMedico" required>
+                    <span class="error" *ngIf="registerForm.get('cedulaMedico').touched && registerForm.get('cedulaMedico').hasError('minlength')">La Cedula debe de tener minimo 7 caracteres</span>
+                    <span class="error" *ngIf="registerForm.get('cedulaMedico').touched && registerForm.get('cedulaMedico').hasError('maxlength')">La Cedula debe de tener maximo 10 caracteres</span>
+                    <span class="error" *ngIf="registerForm.get('cedulaMedico').touched && registerForm.get('cedulaMedico').hasError('required')">La Cedula es requerida</span>
+                </div>
+                <div class="form-group">
+                    <label for="telefonoMedico">Telefono Medico</label>
+                    <input type="text" name="telefonoMedico" id="telefonoMedico" class="form-control" formControlName="telefonoMedico"
+                    [(ngModel)]="medico.telefonoMedico" required>
+                    <span class="error" *ngIf="registerForm.get('telefonoMedico').touched && registerForm.get('telefonoMedico').hasError('minlength')">El telefono debe de tener 10 caracteres</span>
+                    <span class="error" *ngIf="registerForm.get('telefonoMedico').touched && registerForm.get('telefonoMedico').hasError('maxlength')">El telefono debe de tener 10 caracteres</span>
+                    <span class="error" *ngIf="registerForm.get('telefonoMedico').touched && registerForm.get('telefonoMedico').hasError('required')">El telefono es requerido</span>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-outline-success btn-block" [disabled]="!f2.valid">
+                        <i class="fas fa-sign-in-alt"></i> Actualizar Medico</button>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline-primary btn-block" (click)="modal.close()"><i class="fas fa-arrow-alt-circle-left"></i> Volver</button>
+        </div>
+    </ng-template>
+
+    <ng-template #verMedico let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title">Detalle Medico</h4>
+            <button class="close" aria-label="close" type="button" (click)="modal.dismiss()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="container">
+                <div class="row mt-6" *ngIf="medico">
+                    <div class="col-md-4 mx-auto">
+                        <div class="card" style="width: 30rem; right: 100px;">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><b>ID: </b>{{medico.idMedico}}</li>
+                                <li class="list-group-item"><b>Nombre: </b>{{medico.nombreMedico}}</li>
+                                <li class="list-group-item"><b>Genero: </b>{{medico.generoMedico}}</li>
+                                <li class="list-group-item"><b>Especialidad: </b>{{medico.especialidadMedico}}</li>
+                                <li class="list-group-item"><b>Cedula </b>{{medico.cedulaMedico}}</li>
+                                <li class="list-group-item"><b>Telefono: </b>{{medico.telefonoMedico}}</li>
+                            </ul>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline-primary btn-block" (click)="modal.close()"><i class="fas fa-arrow-alt-circle-left"></i> Volver</button>
+        </div>
+    </ng-template>
+
+
+<app-home-footer></app-home-footer>

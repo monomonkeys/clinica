@@ -1,0 +1,26 @@
+<app-home-header></app-home-header>
+<div class="container d-flex justify-content-center">
+    <div class="card">
+        <div class="card-header">
+            <h2>Registrar Area</h2>
+        </div>
+        <div class="card-body">
+            <form #f="ngForm" (ngSubmit)="onRegister()" novalidate [formGroup]="registerForm">
+                <div class="form-group">
+                    <label for="nombreArea">Nombre Area</label>
+                    <input type="text" name="nombreArea" id="nombreArea" class="form-control" formControlName="nombreArea"
+                    [(ngModel)]="nombreArea" required>
+                    <span class="error" *ngIf="registerForm.get('nombreArea').touched && registerForm.get('nombreArea').hasError('required')">El Nombre de Area es requerido</span>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-outline-success btn-block" [disabled]="!f.valid">
+                        <i class="fas fa-sign-in-alt"></i> Registrar Area</button>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-outline-primary btn-block" (click)="volver()"><i class="fas fa-arrow-alt-circle-left"></i> Volver</button>
+        </div>
+    </div>
+</div>
+<app-home-footer></app-home-footer>
