@@ -33,6 +33,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 import { CalendarComponent } from './calendar/calendar.component';
 import { MedicoComponent } from './medico/medico.component';
 import { FechaComponent } from './fecha/fecha.component';
+import { CitaComponent } from './cita/cita.component';
 
 FullCalendarModule.registerPlugins([ 
   dayGridPlugin,
@@ -64,7 +65,8 @@ FullCalendarModule.registerPlugins([
     ConfirmDialogComponent,
     CalendarComponent,
     MedicoComponent,
-    FechaComponent
+    FechaComponent,
+    CitaComponent
   ],
   imports: [
     BrowserModule,

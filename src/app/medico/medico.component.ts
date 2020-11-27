@@ -4,7 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Medico } from '../models/medico';
+import { Usuario } from '../models/usuario';
 import { MedicoService } from '../service/medico.service';
+import { UsuarioService } from '../service/usuario.service';
 
 @Component({
   selector: 'app-medico',
@@ -29,15 +31,18 @@ export class MedicoComponent implements OnInit {
   })
 
   medicos: Medico[] = [];
+  usuarios: Usuario[] = [];
   medico: Medico;
   nombreMedico: string;
   generoMedico: string[];
   especialidadMedico: string;
   cedulaMedico: string;
   telefonoMedico: string;
+  usuario: Usuario;
 
   constructor(
     private medicoService: MedicoService,
+    private usuarioService: UsuarioService,
     private activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
     private router: Router,
@@ -46,6 +51,7 @@ export class MedicoComponent implements OnInit {
 
   ngOnInit() {
     this.cargarMedicos();
+    this.cargarUsuarios();
   }
 
   openXL(registroMedico){
@@ -68,6 +74,17 @@ export class MedicoComponent implements OnInit {
         this.toastr.error(err.error.mensaje, 'Fail', {
           timeOut: 3000,  positionClass: 'toast-top-center',
         });
+      }
+    );
+  }
+
+  cargarUsuarios(): void {
+    this.usuarioService.lista().subscribe(
+      data => {
+        this.usuarios = data;
+      },
+      err => {
+        console.log(err);
       }
     );
   }
@@ -116,7 +133,7 @@ export class MedicoComponent implements OnInit {
   }
 
   onRegister(): void {
-    this.medico = new Medico(this.nombreMedico, this.generoMedico, this.especialidadMedico, this.cedulaMedico, this.telefonoMedico);
+    this.medico = new Medico(this.nombreMedico, this.generoMedico, this.especialidadMedico, this.cedulaMedico, this.telefonoMedico, this.usuario);
     this.medicoService.save(this.medico).subscribe(
       () => {
         this.toastr.success('Medico Creado', 'OK', {

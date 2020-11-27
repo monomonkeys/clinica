@@ -5,6 +5,7 @@ import { Paciente } from '../models/paciente';
 import { PacienteService } from '../service/paciente.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TokenService } from '../service/token.service';
 
 @Component({
   selector: 'app-lista-paciente',
@@ -35,17 +36,24 @@ export class ListaPacienteComponent implements OnInit {
   generoPaciente: string[];
   curpPaciente: string;
   telefonoPaciente: string;
+  isAdmin = false;
+  isMedico = false;
+  isRecepcionista = false;
 
   constructor(
     private pacienteService: PacienteService,
     private activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
     private router: Router,
-    private modal: NgbModal
+    private modal: NgbModal,
+    private tokenService: TokenService
     ) { }
 
   ngOnInit() {
     this.cargarPacientes();
+    this.isAdmin = this.tokenService.isAdmin();
+    this.isMedico = this.tokenService.isMedico();
+    this.isRecepcionista = this.tokenService.isRecepcionista();
   }
 
   openXL(registroPaciente){

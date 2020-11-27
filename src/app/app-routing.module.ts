@@ -21,6 +21,7 @@ import { LoginGuard } from './guards/login.guard';
 import { CalendarComponent } from './calendar/calendar.component';
 import { MedicoComponent } from './medico/medico.component';
 import { FechaComponent } from './fecha/fecha.component';
+import { CitaComponent } from './cita/cita.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'listaPaciente', component:  ListaPacienteComponent, canActivate: [UserGuardService], data: { expectedRol: ['medico', 'admin'] }},
   { path: 'medico', component: MedicoComponent, canActivate: [UserGuardService], data: { expectedRol: ['admin'] }},
   { path: 'fecha', component: FechaComponent, canActivate: [UserGuardService], data: { expectedRol: ['admin'] }},  
+  { path: 'cita', component: CitaComponent, canActivate: [UserGuardService], data: { expectedRol: ['admin', 'medico', 'recepcionista'] }},  
   { path: 'detalle/:id', component:  DetalleUsuarioComponent, canActivate: [UserGuardService], data: { expectedRol: ['admin'] }},
   { path: 'detalleServicio/:id', component:  DetalleServicioComponent, canActivate: [UserGuardService], data: { expectedRol: ['admin'] }},
   { path: 'detalleArea/:id', component:  DetalleAreaComponent, canActivate: [UserGuardService], data: { expectedRol: ['admin'] }},

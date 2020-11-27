@@ -14,6 +14,7 @@
         <th scope="col">Especialidad</th>
         <th scope="col">Cedula</th>
         <th scope="col">Telefono</th>
+        <th scope="col">Nombre</th>
         <th scope="col">Ver</th>
         <th scope="col">Editar</th>
         <th scope="col">Borrar</th>
@@ -27,6 +28,7 @@
         <td>{{medico.especialidadMedico}}</td>
         <td>{{medico.cedulaMedico}}</td>
         <td>{{medico.telefonoMedico}}</td>
+        <td>{{medico.usuario.nombre}}</td>
         <td><button class="btn btn-outline-primary" (click)="openVer(verMedico, medico.idMedico)"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
             <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
@@ -81,6 +83,14 @@
                 <span class="error" *ngIf="registerForm.get('cedulaMedico').touched && registerForm.get('cedulaMedico').hasError('minlength')">La Cedula debe de tener minimo 7 caracteres</span>
                 <span class="error" *ngIf="registerForm.get('cedulaMedico').touched && registerForm.get('cedulaMedico').hasError('maxlength')">La Cedula debe de tener maximo 10 caracteres</span>
                 <span class="error" *ngIf="registerForm.get('cedulaMedico').touched && registerForm.get('cedulaMedico').hasError('required')">La Cedula es requerida</span>
+            </div>
+            <div class="form-group">
+                <label for="telefonoMedico">Telefono Medico</label>
+                <input type="text" name="telefonoMedico" id="telefonoMedico" class="form-control" formControlName="telefonoMedico"
+                [(ngModel)]="telefonoMedico" required>
+                <span class="error" *ngIf="registerForm.get('telefonoMedico').touched && registerForm.get('telefonoMedico').hasError('minlength')">El telefono debe de tener 10 caracteres</span>
+                <span class="error" *ngIf="registerForm.get('telefonoMedico').touched && registerForm.get('telefonoMedico').hasError('maxlength')">El telefono debe de tener 10 caracteres</span>
+                <span class="error" *ngIf="registerForm.get('telefonoMedico').touched && registerForm.get('telefonoMedico').hasError('required')">El telefono es requerido</span>
             </div>
             <div class="form-group">
                 <label for="telefonoMedico">Telefono Medico</label>
@@ -177,6 +187,7 @@
                                 <li class="list-group-item"><b>Especialidad: </b>{{medico.especialidadMedico}}</li>
                                 <li class="list-group-item"><b>Cedula </b>{{medico.cedulaMedico}}</li>
                                 <li class="list-group-item"><b>Telefono: </b>{{medico.telefonoMedico}}</li>
+                                <li class="list-group-item"><b>Nombre: </b>{{medico.usuario.nombre}}</li>
                             </ul>
                         </div>                        
                     </div>

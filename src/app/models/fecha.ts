@@ -1,10 +1,10 @@
 export class Fecha {
     idFecha?: number;
-    fecha: string;
-    tipo: string[];
+    fechaHora: string;
+    tipoCita: string[];
 
-    constructor(fecha: string, tipo: string[]) {
-        this.fecha = fecha;
-        this.tipo = tipo;
+    constructor(fechaHora: string, tipoCita: string[]) {
+        this.fechaHora = fechaHora;
+        this.tipoCita = tipoCita;
     }
 }

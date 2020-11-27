@@ -13,19 +13,19 @@ import { FechaService } from '../service/fecha.service';
 })
 export class FechaComponent implements OnInit {
   registerForm = new FormGroup({
-    fecha: new FormControl('',Validators.required),
-    tipo: new FormControl('',Validators.required)
+    fechaHora: new FormControl('',Validators.required),
+    tipoCita: new FormControl('',Validators.required)
   })
 
   updateForm = new FormGroup({
-    fecha: new FormControl('',Validators.required),
-    tipo: new FormControl('',Validators.required)
+    fechaHora: new FormControl('',Validators.required),
+    tipoCita: new FormControl('',Validators.required)
   })
 
   fechas: Fecha[] = [];
-  fechaMod: Fecha;
-  fecha: string;
-  tipo: string[];
+  fecha: Fecha;
+  fechaHora: string;
+  tipoCita: string[];
 
   constructor(
     private fechaService: FechaService,
@@ -52,7 +52,7 @@ export class FechaComponent implements OnInit {
   cargarDetalle(id:number): void{
     this.fechaService.detail(id).subscribe(
       data => {
-        this.fechaMod = data;
+        this.fecha = data;
         console.info(data);
       },
       err => {
@@ -67,7 +67,7 @@ export class FechaComponent implements OnInit {
     this.modal.open(verFecha,{size:'lg'});
     this.fechaService.detail(id).subscribe(
       data => {
-        this.fechaMod = data;
+        this.fecha = data;
       },
       err => {
         this.toastr.error(err.error.mensaje, 'Fail', {
@@ -90,7 +90,7 @@ export class FechaComponent implements OnInit {
     );
   }
 
-  borrarMedico(id: number) {
+  borrarFecha(id: number) {
     this.fechaService.delete(id).subscribe(
       data => {
         this.toastr.success('Fecha Eliminada', 'OK', {
@@ -107,14 +107,13 @@ export class FechaComponent implements OnInit {
   }
 
   onRegister(): void {
-    this.fechaMod = new Fecha(this.fecha, this.tipo);
-    this.fechaService.save(this.fechaMod).subscribe(
+    this.fecha = new Fecha(this.fechaHora, this.tipoCita);
+    this.fechaService.save(this.fecha).subscribe(
       () => {
         this.toastr.success('Fecha Creada', 'OK', {
           timeOut: 3000, positionClass: 'toast-top-center'
         });
-
-
+        console.log(this.fecha);
         this.modal.dismissAll();
         window.location.reload();
       },
@@ -122,7 +121,7 @@ export class FechaComponent implements OnInit {
         this.toastr.error(err.error.mensaje, 'Fail', {
           timeOut: 3000,  positionClass: 'toast-top-center',
         });
-        console.log(this.fechaMod);
+        console.log(this.fecha);
         console.log(err.error.message);
       }
     );
@@ -130,7 +129,7 @@ export class FechaComponent implements OnInit {
 
   onUpdate(id: number): void {
     
-    this.fechaService.update(id, this.fechaMod).subscribe(
+    this.fechaService.update(id, this.fecha).subscribe(
       data => {
         
         this.toastr.success('Fecha Actualizada', 'OK', {

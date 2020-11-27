@@ -10,7 +10,8 @@ export const environment = {
   servicioURL: 'https://clinica-monomonkeys.herokuapp.com/servicio/',
   usuarioURL: 'https://clinica-monomonkeys.herokuapp.com/auth/',
   medicoURL: 'https://clinica-monomonkeys.herokuapp.com/medico/',
-  fechaURL: 'https://clinica-monomonkeys.herokuapp.com/fecha/'
+  fechaURL: 'https://clinica-monomonkeys.herokuapp.com/fecha/',
+  citaURL: 'https://clinica-monomonkeys.herokuapp.com/cita/'
 };
 
 /*
