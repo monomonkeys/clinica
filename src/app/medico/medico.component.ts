@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Medico } from '../models/medico';
+import { NuevoUsuario } from '../models/nuevo-usuario';
 import { Usuario } from '../models/usuario';
+import { AuthService } from '../service/auth.service';
 import { MedicoService } from '../service/medico.service';
 import { UsuarioService } from '../service/usuario.service';
 
@@ -14,13 +16,9 @@ import { UsuarioService } from '../service/usuario.service';
   styleUrls: ['./medico.component.css']
 })
 export class MedicoComponent implements OnInit {
-  registerForm = new FormGroup({
-    nombreMedico: new FormControl('',Validators.required),
-    generoMedico: new FormControl('',Validators.required),
-    especialidadMedico: new FormControl('',Validators.required),
-    cedulaMedico: new FormControl('',[Validators.minLength(7), Validators.maxLength(10), Validators.required]),
-    telefonoMedico: new FormControl('',[Validators.minLength(10), Validators.maxLength(10), Validators.required]),
-  })
+  public registerForm:FormGroup;
+  isSent = false;
+  
 
   updateForm = new FormGroup({
     nombreMedico: new FormControl('',Validators.required),
@@ -28,9 +26,35 @@ export class MedicoComponent implements OnInit {
     especialidadMedico: new FormControl('',Validators.required),
     cedulaMedico: new FormControl('',[Validators.minLength(7), Validators.maxLength(10), Validators.required]),
     telefonoMedico: new FormControl('',[Validators.minLength(10), Validators.maxLength(10), Validators.required]),
+    nombreUsuario: new FormControl('',[Validators.minLength(4), Validators.required]),
+    password: new FormControl('',[Validators.minLength(4), Validators.required]),
+    repassword: new FormControl('',[Validators.minLength(4), Validators.required]),
+    email: new FormControl('', [Validators.email, Validators.required])
   })
 
+  medico_form:any={
+    "nombreMedico": "",
+    "especialidadMedico": "",
+    "generoMedico": "",
+    "cedulaMedico": "",
+    "telefonoMedico": "",
+    "usuario": {
+        "nombreUsuario": "",
+        "email": "",
+        "password": "",
+        "roles": [
+          {
+            "rolNombre": "ROLE_MEDICO"
+          }
+        ]
+    },
+    "rol": {
+      "rolNombre": "ROLE_MEDICO"
+    }
+  };
+
   medicos: Medico[] = [];
+  nuevoUsuario: NuevoUsuario;
   usuarios: Usuario[] = [];
   medico: Medico;
   nombreMedico: string;
@@ -39,15 +63,79 @@ export class MedicoComponent implements OnInit {
   cedulaMedico: string;
   telefonoMedico: string;
   usuario: Usuario;
+  nombreUsuario: string;
+  email: string;
+  password: string;
+  errMsj: string;
+  roles: string[];
 
   constructor(
+    private formBuilder: FormBuilder,
     private medicoService: MedicoService,
     private usuarioService: UsuarioService,
     private activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
     private router: Router,
-    private modal: NgbModal
-    ) { }
+    private modal: NgbModal,
+    private authService: AuthService,
+  ) {
+    this.registerForm =  this.formBuilder.group({
+      nombreMedico: new FormControl('',Validators.compose(
+        [
+          Validators.required
+        ]
+      )),
+      generoMedico: new FormControl('',Validators.compose(
+        [
+          Validators.required
+        ]
+      )),
+      especialidadMedico: new FormControl('',Validators.compose(
+        [
+          Validators.required
+        ]
+      )),
+      cedulaMedico: new FormControl('',Validators.compose(
+        [
+          Validators.minLength(7), 
+          Validators.maxLength(10), 
+          Validators.required
+        ]
+      )),
+      telefonoMedico: new FormControl('',Validators.compose(
+        [
+          Validators.minLength(10), 
+          Validators.maxLength(10), 
+          Validators.required
+        ]
+      )),
+      nombreUsuario: new FormControl('',Validators.compose(
+        [
+          Validators.minLength(4), 
+          Validators.required
+        ]
+      )),
+      password: new FormControl('',Validators.compose(
+        [
+          Validators.minLength(4), 
+          Validators.required
+        ]
+      )),
+      repassword: new FormControl('',Validators.compose(
+        [
+          Validators.minLength(4), 
+          Validators.required
+        ]
+      )),
+      email: new FormControl('',Validators.compose(
+        [
+          Validators.email, 
+          Validators.required
+        ]
+      ))
+    });
+  }
+
 
   ngOnInit() {
     this.cargarMedicos();
@@ -132,8 +220,59 @@ export class MedicoComponent implements OnInit {
     );
   }
 
-  onRegister(): void {
-    this.medico = new Medico(this.nombreMedico, this.generoMedico, this.especialidadMedico, this.cedulaMedico, this.telefonoMedico, this.usuario);
+  async onRegister() {
+    this.isSent=true;
+    if(this.registerForm.invalid){
+      return false;
+    }else{
+      if(this.registerForm.value.password !=
+        this.registerForm.value.repassword){
+          const toast = await this.toastr.error('Fail', 'Password y Repetir Password no son iguales',{
+            timeOut: 3000,  positionClass: 'toast-top-center',
+          });
+          return false;
+        }else{
+          const medico_register: any = {
+            "nombreMedico": this.registerForm.value.nombreMedico,
+            "especialidadMedico": this.registerForm.value.especialidadMedico,
+            "generoMedico": this.registerForm.value.generoMedico,
+            "cedulaMedico": this.registerForm.value.cedulaMedico,
+            "telefonoMedico": this.registerForm.value.telefonoMedico,
+            "usuario": {
+                "nombreUsuario": this.registerForm.value.nombreUsuario,
+                "email": this.registerForm.value.email,
+                "password": this.registerForm.value.password,
+                "roles": [
+                  {
+                    "id": 3,
+                    "rolNombre": "ROLE_MEDICO"
+                  }
+                ]
+            }
+          }
+          console.info(medico_register);
+          this.medicoService.save(medico_register).subscribe(
+            () => {
+              this.toastr.success('Medico Creado', 'OK', {
+                timeOut: 3000, positionClass: 'toast-top-center'
+              });
+      
+      
+              this.modal.dismissAll();
+              window.location.reload();
+            },
+            err => {
+              this.toastr.error(err.error.mensaje, 'Fail', {
+                timeOut: 3000,  positionClass: 'toast-top-center',
+              });
+              console.log(this.medico);
+              console.log(err.error.message);
+            }
+          );
+        }
+    }
+    /*this.medico = new Medico(this.nombreMedico, this.generoMedico, this.especialidadMedico, this.cedulaMedico, this.telefonoMedico, this.usuario);
+    this.nuevoUsuario = new NuevoUsuario(this.nombreUsuario, this.email, this.password, this.roles);
     this.medicoService.save(this.medico).subscribe(
       () => {
         this.toastr.success('Medico Creado', 'OK', {
@@ -152,27 +291,49 @@ export class MedicoComponent implements OnInit {
         console.log(err.error.message);
       }
     );
-  }
-
-  onUpdate(id: number): void {
-    
-    this.medicoService.update(id, this.medico).subscribe(
-      data => {
-        
-        this.toastr.success('Medico Actualizado', 'OK', {
+    this.authService.nuevo(this.nuevoUsuario).subscribe(
+      () => {
+        this.toastr.success('Cuenta Creada', 'OK', {
           timeOut: 3000, positionClass: 'toast-top-center'
         });
-        
-        this.modal.dismissAll();
-        window.location.reload();
       },
       err => {
-        this.toastr.error(err.error.mensaje, 'Fail', {
+        this.errMsj = err.error.mensaje;
+        this.toastr.error(this.errMsj, 'Fail', {
           timeOut: 3000,  positionClass: 'toast-top-center',
         });
-        this.modal.dismissAll();
+        console.log(this.nuevoUsuario);
+        console.log(err.error.message);
       }
-    );
+    );*/
+  }
+
+  async onUpdate(id: number) {
+    if(this.registerForm.value.password !=
+      this.registerForm.value.repassword){
+        const toast = await this.toastr.error('Fail', 'Password y Repetir Password no son iguales',{
+          timeOut: 3000,  positionClass: 'toast-top-center',
+        });
+        return false;
+      }else{
+        this.medicoService.update(id, this.medico).subscribe(
+          data => {
+            
+            this.toastr.success('Medico Actualizado', 'OK', {
+              timeOut: 3000, positionClass: 'toast-top-center'
+            });
+            
+            this.modal.dismissAll();
+            window.location.reload();
+          },
+          err => {
+            this.toastr.error(err.error.mensaje, 'Fail', {
+              timeOut: 3000,  positionClass: 'toast-top-center',
+            });
+            this.modal.dismissAll();
+          }
+        );
+      }
   }
 
 }

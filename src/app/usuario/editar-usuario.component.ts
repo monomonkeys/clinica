@@ -12,7 +12,6 @@ import { UsuarioService } from '../service/usuario.service';
 })
 export class EditarUsuarioComponent implements OnInit {
   registerForm = new FormGroup({
-    nombre: new FormControl('',Validators.required),
     nombreUsuario: new FormControl('',[Validators.minLength(4), Validators.required]),
     password: new FormControl('',[Validators.minLength(4), Validators.required]),
     email: new FormControl('', [Validators.email, Validators.required]),

@@ -24,7 +24,7 @@
       <tr *ngFor="let cita of citas">
         <td>{{cita.idCita}}</td>
         <td>{{cita.descripcionCita}}</td>
-        <td>{{cita.fechaCita.fechaHora}}</td>
+        <td>{{cita.diaCita}}-{{cita.horaCita.horaInicio}}-{{cita.horaCita.horaFinal}}</td>
         <td>{{cita.medicoCita.nombreMedico}}</td>
         <td>{{cita.pacienteCita.nombrePaciente}}</td>
         <td>{{cita.areaCita.nombreArea}}</td>

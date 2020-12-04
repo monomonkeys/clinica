@@ -63,6 +63,7 @@ export class CitaComponent implements OnInit {
   isMedico = false;
   isRecepcionista = false;
   nombreUsuario: string;
+  curpPaciente: string;
 
 
   constructor(

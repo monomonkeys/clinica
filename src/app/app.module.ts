@@ -34,6 +34,8 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { MedicoComponent } from './medico/medico.component';
 import { FechaComponent } from './fecha/fecha.component';
 import { CitaComponent } from './cita/cita.component';
+import { FilterPipe } from './pipes/filter.pipe';
+import { NuevaCitaComponent } from './nuevaCita/nueva-cita/nueva-cita.component';
 
 FullCalendarModule.registerPlugins([ 
   dayGridPlugin,
@@ -66,7 +68,9 @@ FullCalendarModule.registerPlugins([
     CalendarComponent,
     MedicoComponent,
     FechaComponent,
-    CitaComponent
+    CitaComponent,
+    FilterPipe,
+    NuevaCitaComponent
   ],
   imports: [
     BrowserModule,

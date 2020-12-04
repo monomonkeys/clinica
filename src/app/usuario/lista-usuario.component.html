@@ -9,7 +9,6 @@
     <thead>
       <tr>
         <th scope="col">Id</th>
-        <th scope="col">Nombre</th>
         <th scope="col">Nombre usuario</th>
         <th scope="col">Email</th>
         <th scope="col">Roles</th>
@@ -21,7 +20,6 @@
     <tbody>
       <tr *ngFor="let usuario of usuarios">
         <td>{{usuario.id}}</td>
-        <td>{{usuario.nombre}}</td>
         <td>{{usuario.nombreUsuario}}</td>
         <td>{{usuario.email}}</td>
         <td *ngFor="let rol of usuario.roles">{{rol.rolNombre}}</td>

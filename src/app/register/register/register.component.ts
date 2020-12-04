@@ -12,7 +12,6 @@ import { FormControl, FormGroup, Validators} from '@angular/forms'
 })
 export class RegisterComponent implements OnInit {  
   registerForm = new FormGroup({
-    nombre: new FormControl('',Validators.required),
     nombreUsuario: new FormControl('',[Validators.minLength(4), Validators.required]),
     password: new FormControl('',[Validators.minLength(4), Validators.required]),
     email: new FormControl('', [Validators.email, Validators.required]),
@@ -20,7 +19,6 @@ export class RegisterComponent implements OnInit {
   })
 
   nuevoUsuario: NuevoUsuario;
-  nombre: string;
   nombreUsuario: string;
   email: string;
   password: string;
@@ -39,7 +37,7 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegister(): void {
-    this.nuevoUsuario = new NuevoUsuario(this.nombre, this.nombreUsuario, this.email, this.password, this.roles);
+    this.nuevoUsuario = new NuevoUsuario(this.nombreUsuario, this.email, this.password, this.roles);
     this.authService.nuevo(this.nuevoUsuario).subscribe(
       () => {
         this.toastr.success('Cuenta Creada', 'OK', {

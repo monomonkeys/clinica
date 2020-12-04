@@ -125,6 +125,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "clinica-monomokeys"
+    }
+  },
+  "defaultProject": "clinica-monomokeys",
+  "cli": {
+    "analytics": "6ea71cfb-bee8-412b-b72d-075ab48c4771"
+  }
 }

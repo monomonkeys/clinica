@@ -4,7 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Fecha } from '../models/fecha';
+import { Medico } from '../models/medico';
 import { FechaService } from '../service/fecha.service';
+import { MedicoService } from '../service/medico.service';
 
 @Component({
   selector: 'app-fecha',
@@ -13,30 +15,54 @@ import { FechaService } from '../service/fecha.service';
 })
 export class FechaComponent implements OnInit {
   registerForm = new FormGroup({
-    fechaHora: new FormControl('',Validators.required),
-    tipoCita: new FormControl('',Validators.required)
+    horaInicio: new FormControl('',Validators.required),
+    horaFinal: new FormControl('',Validators.required),
+    medicoHorario: new FormControl('',Validators.required),
+    tipoCita: new FormControl('',Validators.required),
+    diaHorario: new FormControl('',Validators.required)
   })
 
   updateForm = new FormGroup({
-    fechaHora: new FormControl('',Validators.required),
-    tipoCita: new FormControl('',Validators.required)
+    horaInicio: new FormControl('',Validators.required),
+    horaFinal: new FormControl('',Validators.required),
+    medicoHorario: new FormControl('',Validators.required),
+    tipoCita: new FormControl('',Validators.required),
+    diaHorario: new FormControl('',Validators.required)
   })
 
+  fecha_form:any={
+    "horaFinal": "",
+    "horaInicio": "",
+    "medicoHorario": {
+      "idMedico": ""
+    },
+    "tipoCita": "",
+    "diaHorario":""
+  };
+  medicos: Medico[] =[];
   fechas: Fecha[] = [];
   fecha: Fecha;
-  fechaHora: string;
+  medico: Medico;
+  horaInicio: string;
+  horaFinal: string;
   tipoCita: string[];
+  diaHorario: string[];
+  medicoHorario: Medico;
+  idMedico: number;
+
 
   constructor(
     private fechaService: FechaService,
     private activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
+    private medicoService: MedicoService,
     private router: Router,
     private modal: NgbModal
     ) { }
 
   ngOnInit() {
     this.cargaFechas();
+    this.cargarMedicos();
   }
 
   openXL(registroFecha){
@@ -59,6 +85,17 @@ export class FechaComponent implements OnInit {
         this.toastr.error(err.error.mensaje, 'Fail', {
           timeOut: 3000,  positionClass: 'toast-top-center',
         });
+      }
+    );
+  }
+
+  cargarMedicos(): void {
+    this.medicoService.lista().subscribe(
+      data => {
+        this.medicos = data;
+      },
+      err => {
+        console.log(err);
       }
     );
   }
@@ -107,8 +144,19 @@ export class FechaComponent implements OnInit {
   }
 
   onRegister(): void {
-    this.fecha = new Fecha(this.fechaHora, this.tipoCita);
-    this.fechaService.save(this.fecha).subscribe(
+    //this.fecha = new Fecha(this.horaInicio, this.horaFinal, this.idMedico, this.tipoCita, this.diaHorario);
+    /*var datos: Fecha = {
+      horaFinal: this.horaFinal,
+      horaInicio: this.horaInicio,
+      medicoHorario: {
+        idMedico: this.idMedico
+      },
+      tipoCita: this.tipoCita,
+      diaHorario: this.diaHorario
+    };
+    console.log(datos);*/
+    console.info(this.fecha_form);
+    this.fechaService.save(this.fecha_form).subscribe(
       () => {
         this.toastr.success('Fecha Creada', 'OK', {
           timeOut: 3000, positionClass: 'toast-top-center'
@@ -121,7 +169,7 @@ export class FechaComponent implements OnInit {
         this.toastr.error(err.error.mensaje, 'Fail', {
           timeOut: 3000,  positionClass: 'toast-top-center',
         });
-        console.log(this.fecha);
+        //console.log(this.fecha);
         console.log(err.error.message);
       }
     );

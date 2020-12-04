@@ -1,9 +1,9 @@
 <app-home-header></app-home-header>
 
 <div class="registro" style="padding-bottom: 50px; padding-right: 20px;">
-    <button  class="btn btn-primary float-right" (click)="openXL(registroPaciente)"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-plus-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <button  class="btn btn-primary float-right" (click)="openXL(registroCita)"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-plus-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm7.5-3a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
-      </svg> Nuevo Paciente</button>
+      </svg> Generar Cita con Nuevo Paciente</button>
 </div>  
 
 <div class="form-group">
@@ -12,25 +12,22 @@
 <table class="table table-dark">
     <thead>
       <tr>
-        <th scope="col">Id</th>
         <th scope="col">Nombre</th>
         <th scope="col">Fecha Nacimiento</th>
         <th scope="col">Genero</th>
         <th scope="col">Curp</th>
-        <th scope="col">Telefono</th>
         <th scope="col">Ver</th>
         <th scope="col">Editar</th>
         <th scope="col">Borrar</th>
+        <th scope="col">Generar Cita</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let paciente of pacientes | filter:filterPaciente">
-        <td>{{paciente.idPaciente}}</td>
         <td>{{paciente.nombrePaciente}}</td>
         <td>{{paciente.fechaNacimientoPaciente}}</td>
         <td>{{paciente.generoPaciente}}</td>
         <td>{{paciente.curpPaciente}}</td>
-        <td>{{paciente.telefonoPaciente}}</td>
         <td><button class="btn btn-outline-primary" (click)="openVer(verPaciente, paciente.idPaciente)"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
             <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
@@ -44,11 +41,15 @@
             <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
           </svg> Eliminar</button>
         </td>
+        <td><button class="btn btn-outline-success" (click)="openCita(registrarCita, paciente.idPaciente)"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-check-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-5.146-5.146a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/>
+          </svg> Generar Cita</button>
+        </td>
       </tr>
     </tbody>
   </table>
 
-    <ng-template #registroPaciente let-modal>
+    <ng-template #registroCita let-modal>
     <div class="modal-header">
         <h4 class="modal-title">Registrar Paciente</h4>
         <button class="close" aria-label="close" type="button" (click)="modal.dismiss()">
@@ -59,20 +60,17 @@
         <form #f="ngForm" (ngSubmit)="onRegister()" novalidate [formGroup]="registerForm">
             <div class="form-group">
                 <label for="nombrePaciente">Nombre Paciente</label>
-                <input type="text" name="nombrePaciente" id="nombrePaciente" class="form-control" formControlName="nombrePaciente"
-                [(ngModel)]="nombrePaciente" required>
+                <input type="text" class="form-control" formControlName="nombrePaciente" required>
                 <span class="error" *ngIf="registerForm.get('nombrePaciente').touched && registerForm.get('nombrePaciente').hasError('required')">El Nombre de Paciente es requerido</span>
             </div>
             <div class="form-group">
                 <label for="fechaNacimientoPaciente">Fecha de Nacimiento Paciente</label>
-                <input type="date" name="fechaNacimientoPaciente" id="fechaNacimientoPaciente" class="form-control" formControlName="fechaNacimientoPaciente"
-                [(ngModel)]="fechaNacimientoPaciente" required>
+                <input type="date" class="form-control" formControlName="fechaNacimientoPaciente" required>
                 <span class="error" *ngIf="registerForm.get('fechaNacimientoPaciente').touched && registerForm.get('fechaNacimientoPaciente').hasError('required')">La Fecha de Nacimiento es requerida</span>
             </div>
             <div class="form-group">
                 <label for="generoPaciente">Genero Paciente</label>
-                <select class="form-control" id="generoPaciente" name="generoPaciente"  class="form-control" formControlName="generoPaciente"
-                [(ngModel)]="generoPaciente" required>
+                <select class="form-control" class="form-control" formControlName="generoPaciente" required>
                     <option value="HOMBRE">Hombre</option>
                     <option value="MUJER">Mujer</option>
                 </select>
@@ -80,19 +78,59 @@
             </div>
             <div class="form-group">
                 <label for="curpPaciente">Curp Paciente</label>
-                <input type="text" name="curpPaciente" id="curpPaciente" class="form-control" formControlName="curpPaciente"
-                [(ngModel)]="curpPaciente" required>
+                <input type="text" class="form-control" formControlName="curpPaciente"
+                 required>
                 <span class="error" *ngIf="registerForm.get('curpPaciente').touched && registerForm.get('curpPaciente').hasError('minlength')">El Curp debe de tener 18 caracteres</span>
                 <span class="error" *ngIf="registerForm.get('curpPaciente').touched && registerForm.get('curpPaciente').hasError('maxlength')">El Curp debe de tener 18 caracteres</span>
                 <span class="error" *ngIf="registerForm.get('curpPaciente').touched && registerForm.get('curpPaciente').hasError('required')">El Curp es requerido</span>
             </div>
             <div class="form-group">
                 <label for="telefonoPaciente">Telefono Paciente</label>
-                <input type="text" name="telefonoPaciente" id="telefonoPaciente" class="form-control" formControlName="telefonoPaciente"
-                [(ngModel)]="telefonoPaciente" required>
+                <input type="text" class="form-control" formControlName="telefonoPaciente"
+                 required>
                 <span class="error" *ngIf="registerForm.get('telefonoPaciente').touched && registerForm.get('telefonoPaciente').hasError('minlength')">El telefono debe de tener 10 caracteres</span>
                 <span class="error" *ngIf="registerForm.get('telefonoPaciente').touched && registerForm.get('telefonoPaciente').hasError('maxlength')">El telefono debe de tener 10 caracteres</span>
                 <span class="error" *ngIf="registerForm.get('telefonoPaciente').touched && registerForm.get('telefonoPaciente').hasError('required')">El telefono es requerido</span>
+            </div>
+            <div class="form-group">
+                <label for="descripcionCita">Descripcion</label>
+                <input type="text" class="form-control" formControlName="descripcionCita"
+                required>
+                <span class="error" *ngIf="registerForm.get('descripcionCita').touched && registerForm.get('descripcionCita').hasError('required')">La Descripcion es requerida</span>
+            </div>
+            <div class="form-group">
+                <label for="diaCita">Fecha Cita</label>
+                <input type="date" class="form-control" formControlName="diaCita"
+                required>
+                <span class="error" *ngIf="registerForm.get('diaCita').touched && registerForm.get('diaCita').hasError('required')">La Fecha es requerida</span>
+            </div>
+            <div class="form-group">
+                <label for="horaCita">Hora</label>
+                <select class="form-control" class="form-control" formControlName="horaCita"
+                required>
+                    <option [value]="fecha.idFecha" *ngFor="let fecha of fechas">
+                        <ng-container>
+                            {{fecha.horaInicio}}-{{fecha.horaFinal}} {{fecha.medicoHorario.nombreMedico}} {{fecha.tipoCita}} 
+                        </ng-container>     
+                    </option>
+                </select>
+                <span class="error" *ngIf="registerForm.get('horaCita').touched && registerForm.get('horaCita').hasError('required')">La Hora es requerida</span>
+            </div>
+            <div class="form-group">
+                <label for="areaCita">Area</label>
+                <select class="form-control" class="form-control" formControlName="areaCita"
+                required  >
+                    <option [value]="area.idArea" *ngFor="let area of areas">{{area.nombreArea}}</option>
+                </select>
+                <span class="error" *ngIf="registerForm.get('areaCita').touched && registerForm.get('areaCita').hasError('required')">El Area es requerida</span>
+            </div>
+            <div class="form-group">
+                <label for="servicioCita">Servicio</label>
+                <select class="form-control" formControlName="servicioCita"
+                required>
+                    <option [value]="servicio.id" *ngFor="let servicio of servicios">{{servicio.nombre}}</option>
+                </select>
+                <span class="error" *ngIf="registerForm.get('servicioCita').touched && registerForm.get('servicioCita').hasError('required')">El Servicio es requerido</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-outline-success btn-block" [disabled]="!f.valid">

@@ -39,6 +39,7 @@ export class ListaPacienteComponent implements OnInit {
   isAdmin = false;
   isMedico = false;
   isRecepcionista = false;
+  filterPaciente = '';
 
   constructor(
     private pacienteService: PacienteService,

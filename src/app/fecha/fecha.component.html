@@ -9,8 +9,11 @@
     <thead>
       <tr>
         <th scope="col">Id</th>
-        <th scope="col">Fecha</th>
+        <th scope="col">Hora Inicio</th>
+        <th scope="col">Hora Fin</th>
+        <th scope="col">Medico</th>
         <th scope="col">Tipo Cita</th>
+        <th scope="col">Dia</th>
         <th scope="col">Ver</th>
         <th scope="col">Editar</th>
         <th scope="col">Borrar</th>
@@ -19,8 +22,11 @@
     <tbody>
       <tr *ngFor="let fecha of fechas">
         <td>{{fecha.idFecha}}</td>
-        <td>{{fecha.fechaHora}}</td>
+        <td>{{fecha.horaInicio}}</td>
+        <td>{{fecha.horaFinal}}</td>
+        <td>{{fecha.medicoHorario.nombreMedico}}</td>
         <td>{{fecha.tipoCita}}</td>
+        <td>{{fecha.diaHorario}}</td>
         <td><button class="btn btn-outline-primary" (click)="openVer(verFecha, fecha.idFecha)"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
             <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
@@ -46,22 +52,48 @@
         </button>
     </div>
     <div class="modal-body">
-        <form #f="ngForm" (ngSubmit)="onRegister()" novalidate [formGroup]="registerForm">
+        <form #f="ngForm" (ngSubmit)="onRegister()">
             <div class="form-group">
-                <label for="fechaHora">Fecha</label>
-                <input type="datetime-local" name="fechaHora" id="fechaHora" class="form-control" formControlName="fechaHora"
-                [(ngModel)]="fechaHora" required>
-                <span class="error" *ngIf="registerForm.get('fechaHora').touched && registerForm.get('fechaHora').hasError('required')">La Fecha es requerida</span>
+                <label for="horaInicio">Hora Inicio</label>
+                <input type="time" name="horaInicio" id="horaInicio" class="form-control"
+                [(ngModel)]="fecha_form.horaInicio" required>
+                <!--<span class="error" *ngIf="registerForm.get('horaInicio').touched && registerForm.get('horaInicio').hasError('required')">La Hora de Inicio es requerida</span>-->
+            </div>
+            <div class="form-group">
+                <label for="horaFinal">Hora Fin</label>
+                <input type="time" name="horaFinal" id="horaFinal" class="form-control"
+                [(ngModel)]="fecha_form.horaFinal" required>
+                <!--<span class="error" *ngIf="registerForm.get('horaFinal').touched && registerForm.get('horaFinal').hasError('required')">La Hora de Fin es requerida</span>-->
+            </div>
+            <div class="form-group">
+                <label for="medicoHorario">Medico</label>
+                <select id="medicoHorario" name="idMedico"  class="form-control"
+                [(ngModel)]="fecha_form.medicoHorario.idMedico" required>
+                    <option [value]="medico.idMedico" *ngFor="let medico of medicos">{{medico.nombreMedico}}</option>
+                </select>
+                <!--<span class="error" *ngIf="registerForm.get('idMedico').touched && registerForm.get('idMedico').hasError('required')">El Medico es requerida</span>-->
             </div>
             <div class="form-group">
                 <label for="tipoCita">Tipo de Cita</label>
-                <select class="form-control" id="tipoCita" name="tipoCita"  class="form-control" formControlName="tipoCita"
-                [(ngModel)]="tipoCita" required>
+                <select id="tipoCita" name="tipoCita"  class="form-control"
+                [(ngModel)]="fecha_form.tipoCita" required>
                     <option value="Prevaloracion">Prevaloracion</option>
                     <option value="Revaloracion">Revaloracion</option>
                     <option value="Seguimiento">Seguimiento</option>
                 </select>
-                <span class="error" *ngIf="registerForm.get('tipoCita').touched && registerForm.get('tipoCita').hasError('required')">El Tipo de Cita es requerido</span>
+                <!--<span class="error" *ngIf="registerForm.get('tipoCita').touched && registerForm.get('tipoCita').hasError('required')">El Tipo de Cita es requerido</span>-->
+            </div>
+            <div class="form-group">
+                <label for="diaHorario">Dia</label>
+                <select id="diaHorario" name="diaHorario"  class="form-control"
+                [(ngModel)]="fecha_form.diaHorario" required>
+                    <option value="LUNES">Lunes</option>
+                    <option value="MARTES">Martes</option>
+                    <option value="MIERCOLES">Miercoles</option>
+                    <option value="JUEVES">Jueves</option>
+                    <option value="VIERNES">Viernes</option>
+                </select>
+                <!--<span class="error" *ngIf="registerForm.get('diaHorario').touched && registerForm.get('diaHorario').hasError('required')">El Dia de Cita es requerido</span>-->
             </div>
             <div class="form-group">
                 <button class="btn btn-outline-success btn-block" [disabled]="!f.valid">
@@ -84,10 +116,24 @@
         <div class="modal-body">
             <form #f2="ngForm" (ngSubmit)="onUpdate(fecha.idFecha)" novalidate [formGroup]="updateForm">
                 <div class="form-group">
-                    <label for="fechaHora">Fecha</label>
-                    <input type="datetime-local" name="fechaHora" id="fechaHora" class="form-control" formControlName="fechaHora"
-                    [(ngModel)]="fecha.fechaHora" required>
-                    <span class="error" *ngIf="registerForm.get('fechaHora').touched && registerForm.get('fechaHora').hasError('required')">La Fecha es requerida</span>
+                    <label for="horaInicio">Hora Inicio</label>
+                    <input type="time" name="horaInicio" id="horaInicio" class="form-control" formControlName="horaInicio"
+                    [(ngModel)]="fecha.horaInicio" required>
+                    <span class="error" *ngIf="registerForm.get('horaInicio').touched && registerForm.get('horaInicio').hasError('required')">La Hora de Inicio es requerida</span>
+                </div>
+                <div class="form-group">
+                    <label for="horaFinal">Hora Fin</label>
+                    <input type="time" name="horaFinal" id="horaFinal" class="form-control" formControlName="horaFinal"
+                    [(ngModel)]="fecha.horaFinal" required>
+                    <span class="error" *ngIf="registerForm.get('horaFinal').touched && registerForm.get('horaFinal').hasError('required')">La Hora de Fin es requerida</span>
+                </div>
+                <div class="form-group">
+                    <label for="medicoHorario">Medico</label>
+                    <select class="form-control" id="medicoHorario" name="medicoHorario"  class="form-control" formControlName="medicoHorario"
+                    [(ngModel)]="fecha.medicoHorario.idMedico" required>
+                        <option [value]="medico.idMedico" *ngFor="let medico of medicos">{{medico.nombreMedico}}</option>
+                    </select>
+                    <span class="error" *ngIf="registerForm.get('medicoHorario').touched && registerForm.get('medicoHorario').hasError('required')">El Medico es requerida</span>
                 </div>
                 <div class="form-group">
                     <label for="tipoCita">Tipo de Cita</label>
@@ -98,6 +144,18 @@
                         <option value="Seguimiento">Seguimiento</option>
                     </select>
                     <span class="error" *ngIf="registerForm.get('tipoCita').touched && registerForm.get('tipoCita').hasError('required')">El Tipo de Cita es requerido</span>
+                </div>
+                <div class="form-group">
+                    <label for="diaHorario">Dia</label>
+                    <select class="form-control" id="diaHorario" name="diaHorario"  class="form-control" formControlName="diaHorario"
+                    [(ngModel)]="fecha.diaHorario" required>
+                        <option value="LUNES">Lunes</option>
+                        <option value="MARTES">Martes</option>
+                        <option value="MIERCOLES">Miercoles</option>
+                        <option value="JUEVES">Jueves</option>
+                        <option value="VIERNES">Viernes</option>
+                    </select>
+                    <span class="error" *ngIf="registerForm.get('diaHorario').touched && registerForm.get('diaHorario').hasError('required')">El Dia de Cita es requerido</span>
                 </div>
                 <div class="form-group">
                     <button class="btn btn-outline-success btn-block" [disabled]="!f2.valid">
@@ -124,8 +182,10 @@
                         <div class="card" style="width: 30rem; right: 100px;">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item"><b>ID: </b>{{fecha.idFecha}}</li>
-                                <li class="list-group-item"><b>Fecha: </b>{{fecha.fechaHora}}</li>
+                                <li class="list-group-item"><b>Hora: </b>{{fecha.horaInicio}}-{{fecha.horaFinal}}</li>
+                                <li class="list-group-item"><b>Medico: </b>{{fecha.medicoHorario.nombreMedico}}</li>
                                 <li class="list-group-item"><b>Tipo Cita: </b>{{fecha.tipoCita}}</li>
+                                <li class="list-group-item"><b>Dia: </b>{{fecha.diaHorario}}</li>
                             </ul>
                         </div>                        
                     </div>
